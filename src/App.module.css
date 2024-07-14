@@ -1,0 +1,28 @@
+.newForm {
+  background-color: azure;
+
+  width: 60vw;
+
+  border-radius: 10px;
+  display: flex;
+  padding-top: 20px;
+  padding-left: 15px;
+  padding-right: 25px;
+  margin-bottom: 20px;
+}
+
+.title {
+  text-align: center;
+  color: azure;
+}
+
+.container {
+  width: 100vw;
+}
+
+.innerContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
