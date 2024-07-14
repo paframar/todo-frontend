@@ -1,35 +1,76 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect, useState } from "react";
+import DutyForm from "./components/DutyForm";
+import DutyList from "./components/DutyList";
+import useDuties from "./hooks/useDuties";
+import styles from "./App.module.css";
+import { Duty } from "./types";
+import { Typography } from "antd";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: React.FC = () => {
+  const { getDuties, addDuty, updateDuty, deleteDuty } = useDuties();
+  const [duties, setDuties] = useState<Duty[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  const { Text } = Typography;
+
+  useEffect(() => {
+    const fetchDuties = async () => {
+      const result = await getDuties();
+      if (result.error) {
+        setError(result.error);
+      } else {
+        setDuties(result.data);
+      }
+    };
+    fetchDuties();
+  }, [getDuties]);
+
+  const handleNewDuty = async (duty: Duty) => {
+    try {
+      const newDuty = await addDuty(duty);
+      setDuties([...duties, newDuty.data]);
+    } catch (error) {
+      setError("Error saving duty");
+    }
+  };
+
+  const handleEditDuty = async (duty: Duty) => {
+    console.log("handleEditDuty duty", duty);
+    try {
+      const editDuty = await updateDuty(duty);
+      setDuties(duties.map((d) => (d.id === duty.id ? editDuty.data : d)));
+    } catch (error) {
+      setError("Error saving duty");
+    }
+  };
+
+  const handleDeleteDuty = async (id: string) => {
+    try {
+      await deleteDuty(id);
+      setDuties(duties.filter((duty) => duty.id !== id));
+    } catch (err) {
+      setError("Error deleting duty");
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className={styles.container}>
+      <h2 className={styles.title}>✔ Duties List</h2>
+      <div className={styles.innerContainer}>
+        <DutyForm
+          onSubmit={handleNewDuty}
+          initialData={null}
+          formStyles={styles.newForm}
+        />
+        <Text type="danger">{error && <p>{error}</p>}</Text>
+        <DutyList
+          duties={duties}
+          onEdit={handleEditDuty}
+          onDelete={handleDeleteDuty}
+        />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default App
+export default App;

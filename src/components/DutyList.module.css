@@ -1,0 +1,11 @@
+.card {
+  width: 60vw;
+}
+
+.item {
+  min-width: 100px;
+}
+
+.noDataText {
+  color: #fafafa;
+}
