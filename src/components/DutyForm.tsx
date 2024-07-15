@@ -28,8 +28,6 @@ const DutyForm: React.FC<DutyFormProps> = ({
   }, [initialData, form]);
 
   const onFinish: FormProps<Duty>["onFinish"] = (values) => {
-    console.log("onSubmit values ", values);
-    console.log("onSubmit initialData ", initialData);
     if (initialData) {
       onSubmit({ ...values, id: initialData.id });
       closeEditable?.();

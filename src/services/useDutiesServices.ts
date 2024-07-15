@@ -1,9 +1,9 @@
 import { useCallback } from "react";
-import { Duty } from "../types"; // Asegúrate de tener un archivo de tipos donde Duty esté definido
-import { API_URL } from "../config";
+import { Duty } from "../types";
+import { API_URL } from "../../config";
 
-const useDuties = () => {
-  const getDuties = useCallback(async () => {
+const useDutiesServices = () => {
+  const getDutiesService = useCallback(async () => {
     try {
       const response = await fetch(`${API_URL}/duties`);
       if (!response.ok) {
@@ -16,7 +16,7 @@ const useDuties = () => {
     }
   }, []);
 
-  const addDuty = useCallback(async (duty: Partial<Duty>) => {
+  const addDutyService = useCallback(async (duty: Partial<Duty>) => {
     try {
       const response = await fetch(`${API_URL}/duties`, {
         method: "POST",
@@ -35,7 +35,7 @@ const useDuties = () => {
     }
   }, []);
 
-  const updateDuty = useCallback(async (duty: Duty) => {
+  const updateDutyService = useCallback(async (duty: Duty) => {
     try {
       const response = await fetch(`${API_URL}/duties`, {
         method: "PUT",
@@ -56,7 +56,7 @@ const useDuties = () => {
     }
   }, []);
 
-  const deleteDuty = useCallback(async (id: string) => {
+  const deleteDutyService = useCallback(async (id: string) => {
     try {
       const response = await fetch(`${API_URL}/duties/${id}`, {
         method: "DELETE",
@@ -70,7 +70,12 @@ const useDuties = () => {
     }
   }, []);
 
-  return { getDuties, addDuty, updateDuty, deleteDuty };
+  return {
+    getDutiesService,
+    addDutyService,
+    updateDutyService,
+    deleteDutyService,
+  };
 };
 
-export default useDuties;
+export default useDutiesServices;
