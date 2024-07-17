@@ -3,6 +3,7 @@ import { Duty } from "../types";
 import type { FormProps } from "antd";
 import { Button, Form, Input } from "antd";
 import styles from "./DutyForm.module.css";
+import classNames from "classnames";
 
 type DutyFormProps = {
   onSubmit: (data: Duty) => void;
@@ -43,7 +44,7 @@ const DutyForm: React.FC<DutyFormProps> = ({
 
   return (
     <Form
-      className={[styles.form, formStyles]}
+      className={classNames(styles.form, formStyles)}
       form={form}
       name="basic"
       labelCol={{ span: 8 }}
