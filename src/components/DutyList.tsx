@@ -33,8 +33,7 @@ const DutyList: React.FC<DutyListProps> = ({ duties, onEdit, onDelete }) => {
         emptyText: (
           <>
             <Text className={styles.noDataText} aria-multiline>
-              No duties on the list. <br></br>
-              🚀 Enter a new Duty to get started!.
+              No duties on the list. 🚀 Enter a new Duty to get started!.
             </Text>
           </>
         ),
